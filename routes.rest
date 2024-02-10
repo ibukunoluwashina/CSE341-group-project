@@ -1,0 +1,164 @@
+//**********************GET ALL************************
+
+//COURSES
+### Render
+GET https://cse341project-eaxb.onrender.com/users
+
+### Local Host
+GET http://localhost:3500/users/
+
+
+//**********************GET ONE************************
+### Render
+GET https://cse341project-eaxb.onrender.com/users/6407997550ea6decbd5fe3e4
+### Local Host
+GET http://localhost:3500/courses/640f9918e9181eb09413d6c7
+
+
+//*******************POST***************************
+### Render
+POST https://cse341project-eaxb.onrender.com/users
+Content-Type: application/json
+
+{
+    "courseTitle": "Under Water Basket Weaving",
+    "courseId": "PYS-212",
+    "instructor": "Lily Palmer",
+    "classMax": 12,
+    "currentEnrollment": 0,
+    "startDate": "04/17/2023",
+    "endDate": "7/24/2023"
+}
+
+### Local Host
+POST http://localhost:3500/users/
+Content-Type: application/json
+
+{
+    "firstName": "Akin",
+    "lastName": "Dele",
+    "address": "1 oba adesida road, akure",
+    "gender": "male",
+    "dateOfBirth": "04/12/1989",
+    "email": "akin@email.com",
+    "phone": "08036276017",
+    "password": "youtube"
+}
+
+### Local Host
+POST http://localhost:3500/users/
+Content-Type: application/json
+
+{
+    "firstName": "Tosin",
+    "lastName": "Esther",
+    "address": "1B opopoola street, Akure",
+    "gender": "female",
+    "dateOfBirth": "10/04/1990",
+    "email": "ibukunoluwatosin7@gmail.com",
+    "phone": "07022222222",
+    "password": "winner"
+}
+
+//INSTRUCTOR
+### Render
+POST https://personalassignment6-t3uq.onrender.com/instructors
+Content-Type: application/json
+
+{
+    "firstName": "Lily",
+    "lastName": "Palmer",
+    "department": "Pys-Ed",
+    "email": "lpalmer@test.com",
+    "tenure": false,
+    "course": "PYS-212"
+}
+
+### Local Host
+POST http://localhost:3500/instructors
+Content-Type: application/json
+
+{
+    "firstName": "Lily",
+    "lastName": "Palmer",
+    "department": "Pys-Ed",
+    "email": "lpalmer@test.com",
+    "tenure": false,
+    "course": "PYS-212"
+}
+
+
+
+//******************UPDATE/PUT****************************
+//COURSE
+### Render
+PUT https://personalassignment6-t3uq.onrender.com/courses/640f9918e9181eb09413d6c7
+Content-Type: application/json
+
+{
+    "courseTitle": "Algebra",
+    "courseId": "MATH-111",
+    "instructor": "George Santos",
+    "classMax": 50,
+    "currentEnrollment": 37,
+    "startDate": "04/17/2023",
+    "endDate": "7/24/2023"
+}
+
+### Local Host
+PUT http://localhost:3500/courses/6407997550ea6decbd5fe3e4
+Content-Type: application/json
+
+{
+    "courseTitle": "Algebra",
+    "courseId": "MATH-111",
+    "instructor": "George Santos",
+    "classMax": 50,
+    "currentEnrollment": 37,
+    "startDate": "04/17/2023",
+    "endDate": "7/24/2023"
+}
+
+//INSTRUCTOR
+### Render
+PUT https://personalassignment6-t3uq.onrender.com/instructors/6407998c50ea6decbd5fe3f3
+Content-Type: application/json
+
+{
+    "firstName": "Esther",
+    "lastName": "Pullman",
+    "department": "Science",
+    "email": "epullman@test.com",
+    "tenure": true,
+    "course": "ENG-200"
+}
+
+### Local Host
+PUT http://localhost:3500/instructors/6407998c50ea6decbd5fe3f3
+Content-Type: application/json
+
+{
+    "firstName": "Esther",
+    "lastName": "Pullman",
+    "department": "Science",
+    "email": "epullman@test.com",
+    "tenure": true,
+    "course": "ENG-200"
+}
+
+
+
+//******************DELETE****************************
+//COURSE
+### Render
+DELETE https://personalassignment6-t3uq.onrender.com/courses/640fc8e18991da72b6a984ea
+
+### Local Host
+DELETE http://localhost:3500/users/65b51930630eead9fbdd4d3f
+
+//INSTRUCTOR
+### Render
+DELETE https://personalassignment6-t3uq.onrender.com/instructors/640fc8aa8991da72b6a984e8
+
+### Local Host
+DELETE http://localhost:3500/instructors/640f86a0b22a27f40472ff7e
