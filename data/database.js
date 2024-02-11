@@ -1,7 +1,7 @@
 // data/database.js
 const mongoose = require("mongoose");
 require("dotenv").config();
-const dbName = 'Task';
+const dbName = 'Book Collection';
 
 mongoose
   .connect(process.env.DATABASE_URL)
