@@ -9,8 +9,13 @@ const { isAuthenticated } = require("../middleware/authenticate");
 router
   .get("/", booksController.getAllBooks)
   .get("/:id", booksController.getSingleBook)
-  .post("/", isAuthenticated, booksController.createBook)
-  .put("/:id", isAuthenticated, booksController.updateBook)
+  .post("/", validation.storeBook, isAuthenticated, booksController.createBook)
+  .put(
+    "/:id",
+    validation.storeBook,
+    isAuthenticated,
+    booksController.updateBook
+  )
   .delete("/:id", isAuthenticated, booksController.deleteBook);
 
 module.exports = router;

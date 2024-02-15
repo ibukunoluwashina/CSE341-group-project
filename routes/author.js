@@ -9,8 +9,18 @@ const { isAuthenticated } = require("../middleware/authenticate");
 router
   .get("/", authorController.getAllAuthors)
   .get("/:id", authorController.getSingleAuthor)
-  .post("/", isAuthenticated, authorController.creatAuthor)
-  .put("/:id", isAuthenticated, authorController.updateAuthor)
+  .post(
+    "/",
+    validation.storeAuthor,
+    isAuthenticated,
+    authorController.creatAuthor
+  )
+  .put(
+    "/:id",
+    validation.storeAuthor,
+    isAuthenticated,
+    authorController.updateAuthor
+  )
   .delete("/:id", isAuthenticated, authorController.deleteAuthor);
 
 module.exports = router;

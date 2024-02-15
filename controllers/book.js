@@ -37,7 +37,7 @@ const getSingleBook = async (req, res) => {
 const createBook = async (req, res) => {
   // #swagger.tags=['Book']
   try {
-    const { title, authorId, genreId, publicationYear, isbn } = req.body;
+    const { title, authorId, genreId, publicationYear, isbn, isAvailable } = req.body;
     if (!ObjectId.isValid(authorId)) {
       return res.status(400).json("Invalid author ID");
     }
@@ -57,6 +57,7 @@ const createBook = async (req, res) => {
       genreId,
       publicationYear,
       isbn,
+      isAvailable,
     });
     await book.save();
     res.status(201).json(book);

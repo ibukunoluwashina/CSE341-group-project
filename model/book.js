@@ -14,7 +14,7 @@ const bookSchema = new mongoose.Schema({
   },
   publicationYear: { type: Number, required: true },
   isbn: { type: String, required: true, unique: true },
-  availability: { type: Boolean, required: true, default: true },
+  isAvailable: { type: Boolean, required: true, default: true },
   createdAt: { type: Date, default: Date.now },
 });
 
