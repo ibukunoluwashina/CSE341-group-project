@@ -2,7 +2,7 @@ const ObjectId = require("mongodb").ObjectId;
 const Genre = require("../model/genre");
 
 const getAllGenres = async (req, res) => {
-  console.log("Get all genres route working");
+  // #swagger.tags=['Genre']
   try {
     const genres = await Genre.find();
     res.setHeader("Content-Type", "application/json");
@@ -14,19 +14,16 @@ const getAllGenres = async (req, res) => {
 };
 
 const getSingleGenre = async (req, res) => {
-  console.log("Get genre by ID route working");
+  // #swagger.tags=['Genre']
   try {
     const genreId = req.params.id;
     if (!ObjectId.isValid(genreId)) {
-      console.log("Invalid genre ID:", genreId);
       return res.status(400).json("Invalid genre ID");
     }
 
-    console.log("Searching for genre with ID:", genreId);
     const genre = await Genre.findById(genreId);
 
     if (!genre) {
-      console.log("Genre not found for ID:", genreId);
       return res.status(404).json("Genre not found");
     }
 
@@ -38,40 +35,35 @@ const getSingleGenre = async (req, res) => {
 };
 
 const createGenre = async (req, res) => {
-  console.log("Create genre route working");
+  // #swagger.tags=['Genre']
   try {
     const { name, description } = req.body;
     if (!name || !description) {
-      console.log("Required fields are missing");
       return res.status(400).json("Required fields are missing");
     }
 
     const genre = new Genre({
       name,
-      description,      
+      description,
     });
     await genre.save();
     res.status(201).json(genre);
   } catch (error) {
-    console.error("Error creating genre:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 const updateGenre = async (req, res) => {
-  console.log("Update genre route working");
+  // #swagger.tags=['Genre']
   try {
     const genreId = req.params.id;
     if (!ObjectId.isValid(genreId)) {
-      console.log("Invalid genre ID:", genreId);
       return res.status(400).json("Invalid genre ID");
     }
 
-    console.log("Searching for genre with ID:", genreId);
     const genre = await Genre.findById(genreId);
 
     if (!genre) {
-      console.log("Genre not found for ID:", genreId);
       return res.status(404).json("Genre not found");
     }
 
@@ -89,19 +81,16 @@ const updateGenre = async (req, res) => {
 };
 
 const deleteGenre = async (req, res) => {
-  console.log("Delete genre route working");
+  // #swagger.tags=['Genre']
   try {
     const genreId = req.params.id;
     if (!ObjectId.isValid(genreId)) {
-      console.log("Invalid genre ID:", genreId);
       return res.status(400).json("Invalid genre ID");
     }
 
-    console.log("Searching for genre with ID:", genreId);
     const genre = await Genre.findById(genreId);
 
     if (!genre) {
-      console.log("Genre not found for ID:", genreId);
       return res.status(404).json("Genre not found");
     }
 

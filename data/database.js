@@ -5,6 +5,6 @@ const dbName = 'bookcollection';
 
 mongoose
   .connect(process.env.DATABASE_URL)
-  .then(() => console.log("connect to the database")).catch((err) => {
+  .then(() => console.log("Connected to Database")).catch((err) => {
     console.log(err.message);
   });

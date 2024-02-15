@@ -2,6 +2,7 @@ const ObjectId = require("mongodb").ObjectId;
 const Author = require("../model/author");
 
 const getAllAuthors = async (req, res) => {
+  // #swagger.tags=['Author']
   try {
     const authors = await Author.find();
     res.setHeader("Content-Type", "application/json");
@@ -13,14 +14,13 @@ const getAllAuthors = async (req, res) => {
 };
 
 const getSingleAuthor = async (req, res) => {
-  console.log("Get single route working");
+  // #swagger.tags=['Author']
   try {
     const userId = req.params.userId;
     if (!userId) {
       return res.status(400).json("Enter User ID to Search for Author");
     }
 
-    console.log("Searching for Author with User ID:", userId);
     const author = await Author.findOne({ userId: userId });
 
     if (author) {
@@ -37,6 +37,7 @@ const getSingleAuthor = async (req, res) => {
 };
 
 const creatAuthor = async (req, res) => {
+  // #swagger.tags=['Author']
   const { userId, booksPublished } = req.body;
   try {
     const author = await new Author({
@@ -52,6 +53,7 @@ const creatAuthor = async (req, res) => {
 };
 
 const updateAuthor = async (req, res) => {
+  // #swagger.tags=['Author']
   console.log("Update author route working");
   try {
     const authorId = req.params.id;
@@ -88,6 +90,7 @@ const updateAuthor = async (req, res) => {
 };
 
 const deleteAuthor = async (req, res) => {
+  // #swagger.tags=['Author']
   console.log("Delete author route working");
   try {
     const authorId = req.params.id;

@@ -2,7 +2,7 @@ const ObjectId = require("mongodb").ObjectId;
 const Book = require("../model/book");
 
 const getAllBooks = async (req, res) => {
-  console.log("Get all books route working");
+  // #swagger.tags=['Book']
   try {
     const books = await Book.find();
     res.setHeader("Content-Type", "application/json");
@@ -14,19 +14,16 @@ const getAllBooks = async (req, res) => {
 };
 
 const getSingleBook = async (req, res) => {
-  console.log("Get book by ID route working");
+  // #swagger.tags=['Book']
   try {
     const bookId = req.params.id;
     if (!ObjectId.isValid(bookId)) {
-      console.log("Invalid book ID:", bookId);
       return res.status(400).json("Invalid book ID");
     }
 
-    console.log("Searching for book with ID:", bookId);
     const book = await Book.findById(bookId);
 
     if (!book) {
-      console.log("Book not found for ID:", bookId);
       return res.status(404).json("Book not found");
     }
 
@@ -38,23 +35,19 @@ const getSingleBook = async (req, res) => {
 };
 
 const createBook = async (req, res) => {
-  console.log("Create book route working");
+  // #swagger.tags=['Book']
   try {
     const { title, authorId, genreId, publicationYear, isbn } = req.body;
     if (!ObjectId.isValid(authorId)) {
-      console.log("Invalid author ID:", authorId);
       return res.status(400).json("Invalid author ID");
     }
     if (!ObjectId.isValid(genreId)) {
-      console.log("Invalid genre ID:", authorId);
       return res.status(400).json("Invalid genre ID");
     }
     if (!isValidPublicationYear(publicationYear)) {
-      console.log("Invalid publication year:", publicationYear);
       return res.status(400).json("Invalid publication year");
     }
     if (!title || !isbn) {
-      console.log("Required fields are missing");
       return res.status(400).json("Required fields are missing");
     }
 
@@ -74,19 +67,16 @@ const createBook = async (req, res) => {
 };
 
 const updateBook = async (req, res) => {
-  console.log("Update book route working");
+  // #swagger.tags=['Book']
   try {
     const bookId = req.params.id;
     if (!ObjectId.isValid(bookId)) {
-      console.log("Invalid book ID:", bookId);
       return res.status(400).json("Invalid book ID");
     }
 
-    console.log("Searching for book with ID:", bookId);
     const book = await Book.findById(bookId);
 
     if (!book) {
-      console.log("Book not found for ID:", bookId);
       return res.status(404).json("Book not found");
     }
 
@@ -113,19 +103,16 @@ const updateBook = async (req, res) => {
 };
 
 const deleteBook = async (req, res) => {
-  console.log("Delete book route working");
+  // #swagger.tags=['Book']
   try {
     const bookId = req.params.id;
     if (!ObjectId.isValid(bookId)) {
-      console.log("Invalid book ID:", bookId);
       return res.status(400).json("Invalid book ID");
     }
 
-    console.log("Searching for book with ID:", bookId);
     const book = await Book.findById(bookId);
 
     if (!book) {
-      console.log("Book not found for ID:", bookId);
       return res.status(404).json("Book not found");
     }
 

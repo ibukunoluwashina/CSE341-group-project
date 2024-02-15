@@ -2,11 +2,15 @@ const express = require("express");
 const router = express.Router();
 const genreController = require("../controllers/genre");
 
+const validation = require("../middleware/validate");
+
+const { isAuthenticated } = require("../middleware/authenticate");
+
 router
   .get("/", genreController.getAllGenres)
   .get("/:id", genreController.getSingleGenre)
-  .post("/", genreController.createGenre)
-  .put("/:id", genreController.updateGenre)
-  .delete("/:id", genreController.deleteGenre);
+  .post("/", isAuthenticated, genreController.createGenre)
+  .put("/:id", isAuthenticated, genreController.updateGenre)
+  .delete("/:id", isAuthenticated, genreController.deleteGenre);
 
 module.exports = router;
