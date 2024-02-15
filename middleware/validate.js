@@ -24,7 +24,7 @@ const storeUser = (req, res, next) => {
 const storeAuthor = (req, res, next) => {
   const validationRule = {
     userId: "required|string",
-    booksPublished: "required|boolean",
+    booksPublished: "required|integer",
   };
   validator(req.body, validationRule, {}, (err, status) => {
     if (!status) {
