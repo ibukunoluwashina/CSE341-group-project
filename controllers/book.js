@@ -1,49 +1,22 @@
 const ObjectId = require("mongodb").ObjectId;
 const Book = require("../model/book");
 
-const createBook = async (req, res) => {
-  // #swagger.tags=['books']
-  console.log("Create book route working");
+const getAllBooks = async (req, res) => {
+  console.log("Get all books route working");
   try {
-    const { title, authorId, genre, publicationYear, isbn } = req.body;
-    // Validate authorId format
-    if (!ObjectId.isValid(authorId)) {
-      console.log("Invalid author ID:", authorId);
-      return res.status(400).json("Invalid author ID");
-    }
-    // Validate publicationYear format
-    if (!isValidPublicationYear(publicationYear)) {
-      console.log("Invalid publication year:", publicationYear);
-      return res.status(400).json("Invalid publication year");
-    }
-    // Check required fields
-    if (!title || !genre || !isbn) {
-      console.log("Required fields are missing");
-      return res.status(400).json("Required fields are missing");
-    }
-
-    const book = await new Book({
-      title,
-      authorId,
-      genre,
-      publicationYear,
-      isbn,
-      createdAt: Date.now(),
-    });
-    await book.save();
-    res.status(201).json(book);
+    const books = await Book.find();
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).json(books);
   } catch (error) {
-    console.error("Error creating book:", error);
+    console.error("Error fetching books:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-const getBookById = async (req, res) => {
-  // #swagger.tags=['books']
+const getSingleBook = async (req, res) => {
   console.log("Get book by ID route working");
   try {
-    const bookId = req.params.id; // Corrected variable name to bookId
-    // Validate bookId format
+    const bookId = req.params.id;
     if (!ObjectId.isValid(bookId)) {
       console.log("Invalid book ID:", bookId);
       return res.status(400).json("Invalid book ID");
@@ -64,12 +37,46 @@ const getBookById = async (req, res) => {
   }
 };
 
+const createBook = async (req, res) => {
+  console.log("Create book route working");
+  try {
+    const { title, authorId, genreId, publicationYear, isbn } = req.body;
+    if (!ObjectId.isValid(authorId)) {
+      console.log("Invalid author ID:", authorId);
+      return res.status(400).json("Invalid author ID");
+    }
+    if (!ObjectId.isValid(genreId)) {
+      console.log("Invalid genre ID:", authorId);
+      return res.status(400).json("Invalid genre ID");
+    }
+    if (!isValidPublicationYear(publicationYear)) {
+      console.log("Invalid publication year:", publicationYear);
+      return res.status(400).json("Invalid publication year");
+    }
+    if (!title || !isbn) {
+      console.log("Required fields are missing");
+      return res.status(400).json("Required fields are missing");
+    }
+
+    const book = new Book({
+      title,
+      authorId,
+      genreId,
+      publicationYear,
+      isbn,
+    });
+    await book.save();
+    res.status(201).json(book);
+  } catch (error) {
+    console.error("Error creating book:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const updateBook = async (req, res) => {
-  // #swagger.tags=['books']
   console.log("Update book route working");
   try {
-    const bookId = req.params.id; // Corrected variable name to bookId
-    // Validate bookId format
+    const bookId = req.params.id;
     if (!ObjectId.isValid(bookId)) {
       console.log("Invalid book ID:", bookId);
       return res.status(400).json("Invalid book ID");
@@ -83,13 +90,11 @@ const updateBook = async (req, res) => {
       return res.status(404).json("Book not found");
     }
 
-    // Update book fields
-    const { title, authorId, genre, publicationYear, isbn } = req.body;
+    const { title, authorId, genreId, publicationYear, isbn } = req.body;
     if (title) book.title = title;
     if (authorId) book.authorId = authorId;
-    if (genre) book.genre = genre;
+    if (genreId) book.genreId = genreId;
     if (publicationYear) {
-      // Validate publicationYear format
       if (!isValidPublicationYear(publicationYear)) {
         console.log("Invalid publication year:", publicationYear);
         return res.status(400).json("Invalid publication year");
@@ -98,7 +103,6 @@ const updateBook = async (req, res) => {
     }
     if (isbn) book.isbn = isbn;
 
-    // Save updated book
     await book.save();
 
     res.status(200).json(book);
@@ -109,11 +113,9 @@ const updateBook = async (req, res) => {
 };
 
 const deleteBook = async (req, res) => {
-  // #swagger.tags=['books']
   console.log("Delete book route working");
   try {
-    const bookId = req.params.id; // Corrected variable name to bookId
-    // Validate bookId format
+    const bookId = req.params.id;
     if (!ObjectId.isValid(bookId)) {
       console.log("Invalid book ID:", bookId);
       return res.status(400).json("Invalid book ID");
@@ -127,24 +129,11 @@ const deleteBook = async (req, res) => {
       return res.status(404).json("Book not found");
     }
 
-    // Delete book
     await book.delete();
 
     res.status(200).json({ message: "Book deleted successfully" });
   } catch (error) {
     console.error("Error deleting book:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-const getAllBooks = async (req, res) => {
-  console.log("Get all books route working");
-  try {
-    const books = await Book.find();
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(books);
-  } catch (error) {
-    console.error("Error fetching books:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -157,9 +146,9 @@ function isValidPublicationYear(publicationYear) {
 }
 
 module.exports = {
+  getAllBooks,
+  getSingleBook,
   createBook,
-  getBookById,
   updateBook,
   deleteBook,
-  getAllBooks,
 };

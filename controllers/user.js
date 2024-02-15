@@ -1,10 +1,8 @@
-// controllers/users.js
 const ObjectId = require("mongodb").ObjectId;
-const User = require('../model/users')
+const User = require("../model/user");
 
-const getAll = async (req, res) => {
-  console.log("Get all route working")
-    // #swagger.tags=['users']
+const getAllUsers = async (req, res) => {
+  console.log("Get all route working");
   try {
     const users = await User.find();
     res.setHeader("Content-Type", "application/json");
@@ -15,8 +13,7 @@ const getAll = async (req, res) => {
   }
 };
 
-const getSingle = async (req, res) => {
-  // #swagger.tags=['users']
+const getSingleUser = async (req, res) => {
   console.log("Get single route working");
   try {
     const userId = new ObjectId(req.params.id);
@@ -36,58 +33,49 @@ const getSingle = async (req, res) => {
   }
 };
 
-
-
-  const createUser = async (req, res) => {
-     // #swagger.tags=['users']
-  const { firstName, lastName, email, password, birthday } = req.body;
+const createUser = async (req, res) => {
+  const { email, fullName, birthDate, address, biography } = req.body;
   try {
-   const user = await new User({
-    firstName, 
-    lastName, 
-    email,  
-    birthday,
-    password, 
-    createdAt: Date.now()
-   })
+    const user = new User({
+      email,
+      fullName,
+      birthDate,
+      address,
+      biography,
+    });
 
-    await user.save()
+    await user.save();
     res.send(user);
-
   } catch (error) {
-    console.error("Error creating/updating user:", error);
+    console.error("Error Creating User:", error);
     res.status(500).json("Internal Server Error");
   }
 };
 
 const updateUser = async (req, res) => {
-  // #swagger.tags=['users']
   console.log("Update route working");
   try {
     const userId = new ObjectId(req.params.id);
     console.log("Updating user with ID:", userId);
-    const user = {...req.body};
+    const user = { ...req.body };
     console.log("New user data:", user);
-    const response = await User.findByIdAndUpdate({ _id: userId }, user, {new: true});
+    const response = await User.findByIdAndUpdate({ _id: userId }, user, {
+      new: true,
+    });
 
     if (response) {
       return res.status(200).send(response);
     } else {
       console.log("User not found for update or no changes made.");
-      res
-        .status(404)
-        .json("User not found for update or no changes made.");
+      res.status(404).json("User not found for update or no changes made.");
     }
-
   } catch (error) {
     console.error("Error updating user:", error);
     res.status(500).json({ error: error.message });
   }
 };
 
-
 const deleteUser = async (req, res) => {
-  // #swagger.tags=['users']
   console.log("Delete route working");
   try {
     const userId = new ObjectId(req.params.id);
@@ -104,11 +92,9 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
-  getAll,
-  getSingle,
+  getAllUsers,
+  getSingleUser,
   createUser,
   updateUser,
   deleteUser,
