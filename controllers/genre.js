@@ -34,6 +34,7 @@ const getSingleGenre = async (req, res) => {
   }
 };
 
+
 const createGenre = async (req, res) => {
   // #swagger.tags=['Genre']
   try {
@@ -43,9 +44,10 @@ const createGenre = async (req, res) => {
     }
 
     const genre = new Genre({
-      name,
-      description,
+      name: req.body.name,
+      description: req.body.description,
     });
+
     await genre.save();
     res.status(201).json(genre);
   } catch (error) {

@@ -37,9 +37,9 @@ const getSingleBook = async (req, res) => {
 const createBook = async (req, res) => {
   // #swagger.tags=['Book']
   try {
-    const { title, authorId, genreId, publicationYear, isbn, isAvailable } = req.body;
+    const { title, authorId, genreId, publicationYear, isbn, isAvailable } = req.body;    
     if (!ObjectId.isValid(authorId)) {
-      return res.status(400).json("Invalid author ID");
+      return res.status(400).json({ error: "Invalid author ID" });
     }
     if (!ObjectId.isValid(genreId)) {
       return res.status(400).json("Invalid genre ID");
@@ -75,33 +75,23 @@ const updateBook = async (req, res) => {
       return res.status(400).json("Invalid book ID");
     }
 
-    const book = await Book.findById(bookId);
+    const updatedBook = await Book.findOneAndUpdate(
+      { _id: bookId },
+      { $set: req.body },
+      { new: true }
+    );
 
-    if (!book) {
+    if (!updatedBook) {
       return res.status(404).json("Book not found");
     }
 
-    const { title, authorId, genreId, publicationYear, isbn } = req.body;
-    if (title) book.title = title;
-    if (authorId) book.authorId = authorId;
-    if (genreId) book.genreId = genreId;
-    if (publicationYear) {
-      if (!isValidPublicationYear(publicationYear)) {
-        console.log("Invalid publication year:", publicationYear);
-        return res.status(400).json("Invalid publication year");
-      }
-      book.publicationYear = publicationYear;
-    }
-    if (isbn) book.isbn = isbn;
-
-    await book.save();
-
-    res.status(200).json(book);
+    res.status(200).json(updatedBook);
   } catch (error) {
     console.error("Error updating book:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 const deleteBook = async (req, res) => {
   // #swagger.tags=['Book']

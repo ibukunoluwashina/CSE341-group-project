@@ -54,60 +54,43 @@ const creatAuthor = async (req, res) => {
 
 const updateAuthor = async (req, res) => {
   // #swagger.tags=['Author']
-  console.log("Update author route working");
   try {
     const authorId = req.params.id;
     if (!ObjectId.isValid(authorId)) {
-      console.log("Invalid author ID:", authorId);
       return res.status(400).json("Invalid author ID");
     }
 
-    console.log("Searching for author with ID:", authorId);
-    const author = await Author.findById(authorId);
+    const updatedAuthor = await Author.findOneAndUpdate(
+      { _id: authorId },
+      { $set: req.body },
+      { new: true }
+    );
 
-    if (!author) {
-      console.log("Author not found for ID:", authorId);
+    if (!updatedAuthor) {
       return res.status(404).json("Author not found");
     }
 
-    const { booksPublished } = req.body;
-    if (booksPublished) {
-      const existingAuthor = await Author.findOne({ _id: authorId });
-      if (existingAuthor && existingAuthor._id.toString() !== authorId) {
-        console.log("Email already exists:", email);
-        return res.status(400).json("Email already exists");
-      }
-      author.email = email;
-    }
-
-    await author.save();
-
-    res.status(200).json(author);
+    res.status(200).json(updatedAuthor);
   } catch (error) {
     console.error("Error updating author:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
+
 const deleteAuthor = async (req, res) => {
   // #swagger.tags=['Author']
-  console.log("Delete author route working");
   try {
     const authorId = req.params.id;
     if (!ObjectId.isValid(authorId)) {
-      console.log("Invalid author ID:", authorId);
       return res.status(400).json("Invalid author ID");
     }
 
-    console.log("Searching for author with ID:", authorId);
-    const author = await Author.findById(authorId);
+    const deletedAuthor = await Author.findByIdAndDelete(authorId);
 
-    if (!author) {
-      console.log("Author not found for ID:", authorId);
+    if (!deletedAuthor) {
       return res.status(404).json("Author not found");
     }
-
-    await author.delete();
 
     res.status(200).json({ message: "Author deleted successfully" });
   } catch (error) {
@@ -115,6 +98,7 @@ const deleteAuthor = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 module.exports = {
   getAllAuthors,

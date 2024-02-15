@@ -33,18 +33,17 @@ const getSingleUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   // #swagger.tags=['Users']
-  const { email, fullName, birthDate, address, biography } = req.body;
-  try {
-    const user = new User({
-      email,
-      fullName,
-      birthDate,
-      address,
-      biography,
-    });
+  const user = new User({
+    email: req.body.email,
+    fullName: req.body.fullName,
+    birthDate: req.body.birthDate,
+    address: req.body.address,
+    biography: req.body.biography,
+  });
 
+  try {   
     await user.save();
-    res.send(user);
+    res.status(201).json(user);
   } catch (error) {
     console.error("Error Creating User:", error);
     res.status(500).json("Internal Server Error");
@@ -53,38 +52,39 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   // #swagger.tags=['Users']
-  try {
-    const userId = new ObjectId(req.params.id);
-    const user = { ...req.body };
-    const response = await User.findByIdAndUpdate({ _id: userId }, user, {
-      new: true,
-    });
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json("Enter a valid user Id");
+  }
+  const userId = new ObjectId(req.params.id);
 
-    if (response) {
-      return res.status(200).send(response);
-    } else {
-      res.status(404).json("User not found for update or no changes made.");
-    }
-  } catch (error) {
-    console.error("Error updating user:", error);
-    res.status(500).json({ error: error.message });
+  const user = {
+    email: req.body.email,
+    fullName: req.body.fullName,
+    birthDate: req.body.birthDate,
+    address: req.body.address,
+    biography: req.body.biography,
+  };
+
+  const response = await User.findByIdAndUpdate({ _id: userId }, user, {
+    new: true,
+  });
+
+  if (response) {
+    return res.status(200).send(response);
+  } else {
+    res.status(404).json("User not found for update or no changes made.");
   }
 };
 
 const deleteUser = async (req, res) => {
   // #swagger.tags=['Users']
-  try {
-    const userId = new ObjectId(req.params.id);
-    const response = await User.findByIdAndDelete({ _id: userId });
+  const userId = new ObjectId(req.params.id);
+  const response = await User.findByIdAndDelete({ _id: userId });
 
-    if (response) {
-      return res.status(200).send();
-    } else {
-      res.status(404).json("User not found for deletion");
-    }
-  } catch (error) {
-    console.error("Error deleting user:", error);
-    res.status(500).json({ error: error.message });
+  if (response) {
+    return res.status(200).send();
+  } else {
+    res.status(404).json("User not found for deletion");
   }
 };
 
