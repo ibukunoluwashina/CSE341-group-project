@@ -61,7 +61,7 @@ const storeBook = (req, res, next) => {
   const validationRule = {
     title: "required|string",
     authorId: "required|string",
-    genreId: "required|integer",
+    genreId: "required|string",
     publicationYear: "required|integer",
     isbn: "required|string",
     isAvailable: "required|boolean",
