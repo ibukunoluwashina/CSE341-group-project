@@ -16,7 +16,7 @@ const getAllAuthors = async (req, res) => {
 const getSingleAuthor = async (req, res) => {
   // #swagger.tags=['Author']
   try {
-    const userId = req.params.userId;
+    const userId = req.params.id;
     if (!userId) {
       return res.status(400).json("Enter User ID to Search for Author");
     }
@@ -40,7 +40,7 @@ const creatAuthor = async (req, res) => {
   // #swagger.tags=['Author']
   const { userId, booksPublished } = req.body;
   try {
-    const author = await new Author({
+    const author = new Author({
       userId,
       booksPublished,
     });
@@ -57,7 +57,7 @@ const updateAuthor = async (req, res) => {
   try {
     const authorId = req.params.id;
     if (!ObjectId.isValid(authorId)) {
-      return res.status(400).json("Invalid author ID");
+      return res.status(400).json({ error: "Invalid author ID" });
     }
 
     const updatedAuthor = await Author.findOneAndUpdate(
@@ -70,7 +70,7 @@ const updateAuthor = async (req, res) => {
       return res.status(404).json("Author not found");
     }
 
-    res.status(200).json(updatedAuthor);
+    res.status(200).json({ message: "Author updated successfully", author: updatedAuthor });
   } catch (error) {
     console.error("Error updating author:", error);
     res.status(500).json({ error: "Internal Server Error" });
