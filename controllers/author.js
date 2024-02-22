@@ -14,25 +14,20 @@ const getAllAuthors = async (req, res) => {
 };
 
 const getSingleAuthor = async (req, res) => {
-  // #swagger.tags=['Author']
+  // #swagger.tags=['Users']
   try {
-    const userId = req.params.id;
-    if (!userId) {
-      return res.status(400).json("Enter User ID to Search for Author");
-    }
-
-    const author = await Author.findOne({ userId: userId });
+    const authorId = new ObjectId(req.params.id);
+    const author = await User.findOne({ _id: authorId });
 
     if (author) {
       res.setHeader("Content-Type", "application/json");
       res.status(200).json(author);
     } else {
-      console.log("Author not Found for User ID:", userId);
       res.status(404).json("Author not found");
     }
   } catch (error) {
     console.error("Error fetching author:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json("Internal Server Error");
   }
 };
 
