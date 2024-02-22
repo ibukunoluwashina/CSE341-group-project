@@ -5,7 +5,7 @@
     "description": "APIs endpoints documentation for the App",
     "version": "1.0.0"
   },
-  "host": "semester-project-cse341.onrender.com",
+  "host": "https://semester-project-cse341.onrender.com",
   "basePath": "/",
   "schemes": [
     "http",
@@ -513,7 +513,7 @@
       },
       "delete": {
         "tags": [
-          "Book"
+          "Users"
         ],
         "description": "",
         "parameters": [
@@ -525,20 +525,14 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
+          "204": {
+            "description": "No Content"
           },
           "401": {
             "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -682,7 +676,7 @@
       },
       "delete": {
         "tags": [
-          "Genre"
+          "Users"
         ],
         "description": "",
         "parameters": [
@@ -694,20 +688,14 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
+          "204": {
+            "description": "No Content"
           },
           "401": {
             "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
