@@ -5,7 +5,7 @@
     "description": "APIs endpoints documentation for the App",
     "version": "1.0.0"
   },
-  "host": "https://semester-project-cse341.onrender.com",
+  "host": "semester-project-cse341.onrender.com",
   "basePath": "/",
   "schemes": [
     "http",
