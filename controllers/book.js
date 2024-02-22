@@ -92,25 +92,15 @@ const updateBook = async (req, res) => {
   }
 };
 
-
 const deleteBook = async (req, res) => {
-  // #swagger.tags=['Book']
-  try {
-    const bookId = req.params.id;
-    if (!ObjectId.isValid(bookId)) {
-      return res.status(400).json("Invalid book ID");
-    }
+  // #swagger.tags=['Users']
+  const bookId = new ObjectId(req.params.id);
+  const response = await User.findByIdAndDelete({ _id: bookId });
 
-    const book = await Book.findByIdAndDelete(bookId);
-
-    if (!book) {
-      return res.status(404).json("Book not found");
-    }    
-
-    res.status(204).json({ message: "Book deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting book:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+  if (response) {
+    return res.status(204).send();
+  } else {
+    res.status(404).json("Book not found for deletion");
   }
 };
 

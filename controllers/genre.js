@@ -63,7 +63,7 @@ const updateGenre = async (req, res) => {
       return res.status(400).json("Invalid genre ID");
     }
 
-    const genre = await Genre.findById(genreId);
+    const genre = await Genre.findByIdAnd(genreId);
 
     if (!genre) {
       return res.status(404).json("Genre not found");
@@ -83,25 +83,14 @@ const updateGenre = async (req, res) => {
 };
 
 const deleteGenre = async (req, res) => {
-  // #swagger.tags=['Genre']
-  try {
-    const genreId = req.params.id;
-    if (!ObjectId.isValid(genreId)) {
-      return res.status(400).json("Invalid genre ID");
-    }
+  // #swagger.tags=['Users']
+  const genreId = new ObjectId(req.params.id);
+  const response = await Genre.findByIdAndDelete({ _id: genreId });
 
-    const genre = await Genre.findById(genreId);
-
-    if (!genre) {
-      return res.status(404).json("Genre not found");
-    }
-
-    await genre.delete();
-
-    res.status(200).json({ message: "Genre deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting genre:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+  if (response) {
+    return res.status(204).send();
+  } else {
+    res.status(404).json("Genre not found for deletion");
   }
 };
 
