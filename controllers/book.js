@@ -101,15 +101,13 @@ const deleteBook = async (req, res) => {
       return res.status(400).json("Invalid book ID");
     }
 
-    const book = await Book.findById(bookId);
+    const book = await Book.findByIdAndDelete(bookId);
 
     if (!book) {
       return res.status(404).json("Book not found");
-    }
+    }    
 
-    await book.delete();
-
-    res.status(200).json({ message: "Book deleted successfully" });
+    res.status(204).json({ message: "Book deleted successfully" });
   } catch (error) {
     console.error("Error deleting book:", error);
     res.status(500).json({ error: "Internal Server Error" });
