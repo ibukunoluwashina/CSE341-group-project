@@ -3,9 +3,9 @@ const swaggerAutogen = require('swagger-autogen')();
 const doc = {
     info: {
         title: 'Book Store Application',
-        description: 'APIs endpoints documentation for the App'
+        description: 'APIs endpoints documentation for the App',
     }, 
-    host: 'localhost:3000',
+    host: 'https://semester-project-cse341.onrender.com',
     schemes: ['http', 'https']
 };
 
