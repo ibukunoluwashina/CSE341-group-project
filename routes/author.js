@@ -8,7 +8,7 @@ const { isAuthenticated } = require("../middleware/authenticate");
 
 router
   .get("/", authorController.getAllAuthors)
-  .get("/:userId", authorController.getSingleAuthor)
+  .get("/:id", authorController.getSingleAuthor)
   .post(
     "/",
     validation.storeAuthor,

@@ -37,7 +37,7 @@ const getSingleBook = async (req, res) => {
 const createBook = async (req, res) => {
   // #swagger.tags=['Book']
   try {
-    const { title, authorId, genreId, publicationYear, isbn, isAvailable } = req.body;    
+    const { title, authorId, genreId, publicationYear, isbn, isAvailable } = req.body;
     if (!ObjectId.isValid(authorId)) {
       return res.status(400).json({ error: "Invalid author ID" });
     }
@@ -68,27 +68,27 @@ const createBook = async (req, res) => {
 };
 
 const updateBook = async (req, res) => {
-  // #swagger.tags=['Book']
-  try {
-    const bookId = req.params.id;
-    if (!ObjectId.isValid(bookId)) {
-      return res.status(400).json("Invalid book ID");
-    }
+  // #swagger.tags=['Book']  
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json("Invalid book ID");
+  }
+  const bookId = new ObjectId(req.params.id);
 
-    const updatedBook = await Book.findOneAndUpdate(
-      { _id: bookId },
-      { $set: req.body },
-      { new: true }
-    );
+  const book = {
+    title: req.body.title,
+    authorId: req.body.authorId,
+    genreId: req.body.genreId,
+    publicationYear: req.body.publicationYear,
+    isbn: req.body.isbn,
+    isAvailable: req.body.isAvailable,
+  }
 
-    if (!updatedBook) {
-      return res.status(404).json("Book not found");
-    }
+  const response = await Book.findOneAndUpdate({ _id: bookId }, { book }, { new: true });
 
-    res.status(200).json(updatedBook);
-  } catch (error) {
-    console.error("Error updating book:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+  if (response) {
+    return res.status(200).json(response);
+  } else {
+    res.status(404).json({ error: "User not found for update or no changes made." });
   }
 };
 

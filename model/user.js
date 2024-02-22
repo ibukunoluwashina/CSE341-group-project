@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   birthDate: { type: Date, required: true },
   address: { type: String, required: true },
   biography: { type: String, required: true },
-  isAuthor: { type: Boolean, required: true, default: false },
+  isAuthor: { type: Boolean, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 

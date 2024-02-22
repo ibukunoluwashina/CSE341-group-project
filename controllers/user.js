@@ -39,9 +39,10 @@ const createUser = async (req, res) => {
     birthDate: req.body.birthDate,
     address: req.body.address,
     biography: req.body.biography,
+    isAuthor: req.body.isAuthor,
   });
 
-  try {   
+  try {
     await user.save();
     res.status(201).json(user);
   } catch (error) {
@@ -72,7 +73,7 @@ const updateUser = async (req, res) => {
   if (response) {
     return res.status(200).send(response);
   } else {
-    res.status(404).json("User not found for update or no changes made.");
+    res.status(404).json({ error: "User not found for update or no changes made." });
   }
 };
 
@@ -82,7 +83,7 @@ const deleteUser = async (req, res) => {
   const response = await User.findByIdAndDelete({ _id: userId });
 
   if (response) {
-    return res.status(200).send();
+    return res.status(204).send();
   } else {
     res.status(404).json("User not found for deletion");
   }
