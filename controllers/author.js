@@ -14,9 +14,9 @@ const getAllAuthors = async (req, res) => {
 };
 
 const getSingleAuthor = async (req, res) => {
-  // #swagger.tags=['Users']
+  // #swagger.tags=['Author']
   try {
-    const authorId = new ObjectId(req.params.id);
+    const authorId = req.params.id;
     const author = await Author.findOne({ _id: authorId });
 
     if (author) {
