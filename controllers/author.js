@@ -17,7 +17,7 @@ const getSingleAuthor = async (req, res) => {
   // #swagger.tags=['Users']
   try {
     const authorId = new ObjectId(req.params.id);
-    const author = await User.findOne({ _id: authorId });
+    const author = await Author.findOne({ _id: authorId });
 
     if (author) {
       res.setHeader("Content-Type", "application/json");
